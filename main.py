@@ -5,7 +5,7 @@ import time
 import datetime
 import os
 import uuid
-class NameManager():
+class RecordManager():
     def __init__(self): 
         self.name_folder_1={}
         self.file_load(silent=True)
@@ -217,6 +217,6 @@ class NameManager():
                 self.del_data()
         print("Invalid choice, Please try again")
         return
-manager=NameManager()
+manager=RecordManager()
 manager.file_intro()
 manager.menu()
