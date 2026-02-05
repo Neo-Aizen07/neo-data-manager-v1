@@ -27,7 +27,7 @@ def process_menu():
     print("Loading",end='.',flush=True)
     for i in range(3):
         time.sleep(0.5)
-    print(".",end=" \n", flush=True)
+    print(" ",end=" \n", flush=True)
 class RecordManager():
     def __init__(self): 
         self.records={}
@@ -39,20 +39,40 @@ class RecordManager():
     def show_intro(self):
         print("-"*50)
         print("WELCOME TO DATABASE MANAGEMENT SYSTEM (JSON Based)")
-        print("Version v1.2")
+        print("Version v1.3")
         print("="*50)
     def name_enter(self):
         username=input("Please enter a username :").strip()
-        if not username or username[0].isalnum() or username.lower():
+        if not username or " " in username or username!=username.lower() or not username[0].isalpha() or not username[-1].isalpha() or any(char in '!@#$%^&*()+=[]{}|;:",<>?/`~' for char in username):
             print("Invalid input, Username cannot be empty or start with special characters or start with uppercase letters. Please try again.")
             return
-        name=input("Please enter your name :").strip()
-        if not name:
+        name_first=input("Please enter your first name :").strip()
+        name_last=input("Please enter your Last name (optional if exsists):").strip()
+        if not name_first:
             print("Invalid input, Name cannot be empty. Please try again.")
             return
-        if name.isdigit() or not name.isalpha() or " " in name or not name.isascii() or any(char in '!_-@#$%^&*()+=[]{}|;:",.<>?/`~' for char in name):
+        elif not name_first.isalpha():
             print("Invalid input, Name cannot contain numbers or special characters. Please try again.")
             return
+        elif " " in name_first:
+            print("Invalid input, Name cannot contain spaces. Please try again.")
+            return
+            return
+        elif any(char in '!_-@#$%^&*()+=[]{}|;:",.<>?/`~' for char in name_first):
+            print("Invalid input, Name cannot contain special characters. Please try again.")
+            return
+        if not name_last:
+            print("Invalid input, Name cannot be empty. Please try again .")
+            return
+        elif not name_last.isalpha():
+            print("Invalid input, Name cannot contain numbers or special characters. Please try again.")
+            return
+        elif " " in name_last:
+            print("Invalid input, Name cannot contain spaces. Please try again.")
+            return
+        elif any(char in '!_-@#$%^&*()+=[]{}|;:",.<>?/`~' for char in name_last):
+            print("Invalid input, Name cannot contain special characters. Please try again.")
+        name=name_first+" "+name_last
         if username not in self.records:
             self.records[username]={"Name": name, "ID" : generate_id(), "Last saved" :time_save()}
             self.save_names()
@@ -80,13 +100,15 @@ class RecordManager():
                 except FileNotFoundError as e:
                     print(f"Error: {e}")
                 except Exception as e:
-                    print(f"Error:,{e}")
+                    print(f"Error:{e}")
             elif input_y=="no":
                 print("Deletion cancelled,Returning to the main menu")
                 return
             else:
                 print("Data not found, Please Try Again")
-        elif delete=="person":
+                return
+    def delete_person(self):
+            user_folder=self.records
             try:
                 name=input("Please enter the username of whose data you want to remove :")
                 if name in user_folder:
@@ -113,8 +135,8 @@ class RecordManager():
                     print("Name not found, Try Again")
             except FileNotFoundError as e:
                 print(f"Name not found, {e}")
-        else:
-            print("Invalid Input, Try Again")
+            except Exception as e:
+                print(f"Error: {e}")
     def search_name(self): # This function is used to search for a name and know whether it exists or not
         input_1=input("Do you want to search using ID, Username or Name :").lower()
         found=False
@@ -127,8 +149,9 @@ class RecordManager():
                         print("Unique ID found :",data.get("ID"))
                         print(f"Last saved time :{data.get('Last saved')}")
                         found=True
-                    else:
-                        print("Name not found, Try Again")
+                        break
+            else:
+                print("Name not found, Try Again")
         elif input_1=="id":
             id=input("Please enter your ID to search :")
             for username,data in self.records.items():
@@ -138,8 +161,8 @@ class RecordManager():
                     print("Unique ID found :",data.get("ID"))
                     print(f"Last saved time :{data.get('Last saved')}")
                     found=True
-        if not found:
-            print("ID not found, Try Again")
+            if not found:
+                print("ID not found, Try Again")
         elif input_1=="username":
             user=input("Please enter your username to search :")
             if user in self.records:
@@ -199,14 +222,14 @@ class RecordManager():
         details_1=details_0["Name"]
         details_2=details_0["ID"]
         details_3=details_0["Last saved"]
-        main_details=(f"Username : {name}\n Name : {details_1}\n ID={details_2}\n Last saved={details_3}")
+        main_details=(f"Username : {name}\n Name : {details_1}\n ID : {details_2}\n Last saved : {details_3}")
         img=qrcode.make(main_details)
         unique_id=uuid.uuid4().hex
         file=(f"{unique_id}qr.png")
         img.save(file)
         try:
             img.show()
-            time.sleep(15.0)
+            input("Press enter to close the QR code and delete the file")
         except Exception as e:
             print(f"Error: {e}")
         finally:
@@ -220,7 +243,8 @@ class RecordManager():
             print("3-Load Names")
             print("4-Exit")
             print("5-Generate QR Code")
-            print("6- Delete")
+            print("6- Delete Entire Data")
+            print("7- Delete a particular person's data")
             print("="*50)
             try:
                 choice=int(input("Please enter your choice :"))
@@ -247,6 +271,9 @@ class RecordManager():
             elif choice==6:
                 process_menu()
                 self.delete_data()
+            elif choice==7:
+                process_menu()
+                self.delete_person()
             else:
                 print("Invalid choice, Please try again")
                 continue
