@@ -70,7 +70,7 @@ def delete_data(record_manager):
             if input_y=="yes":
                 clear_proc()
                 try:
-                    record_manager.clear()
+                    record_manager.records.clear()
                     save_names(record_manager)
                     print("Your data has been deleted successfully")
                 except FileNotFoundError as e:
@@ -99,7 +99,7 @@ def delete_person(record_manager):
                         clear_proc()
                         try:
                             del record_manager.records[name]
-                            save_names(record_manager.records)
+                            save_names(record_manager)
                             print(f"The data of the {name} has been deleted successfully")
                             print("Returning to main menu")
                         except FileNotFoundError as e:
