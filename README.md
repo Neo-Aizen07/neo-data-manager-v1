@@ -74,10 +74,10 @@ Delete a single user’s data with confirmation.
 Generate and display a QR code for any user record.
 
 ### **file_load()**
-Load existing records from lost.json.
+Load existing records from data.json.
 
 ### **save_names()**
-Save all records back to lost.json.
+Save all records back to data.json.
 
 
 ## 🛠️ **Usage**
@@ -118,8 +118,6 @@ Deletion operations always require confirmation to prevent accidental data loss.
 
 ## 💡 **Notes**
 This project is a learning experiment, not for production use.
-
-Code can be extended for integrations like payment systems, temporary storage, or data sharing via QR.
 
 Contributions and feedback are welcome!
 ## 📸 Gallery
