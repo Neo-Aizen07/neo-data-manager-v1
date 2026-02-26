@@ -3,51 +3,30 @@ import datetime
 import uuid
 from storage import save_names
 from user_interface import time_save, generate_id
+from logger import log_info
+from Validation import user_valid,name_valid
 def name_enter(record_manager):
-        from storage import save_names
-        try:
-            print("The data will be stores locally on ", os.path.abspath(__file__))
-            username=input("Please enter a username :").strip()
-            if username in record_manager.records:
-                print("Username already exists, Please try again")
-                return
-            if not username:
-                print("Invalid input, Username cannot be empty. Please try again.")
-                return
-            name_first=input("Please enter your first name :").strip()
-            name_last=input("Please enter your Last name (optional if exsists):").strip()
-            if not name_first:
-                print("Invalid input, Name cannot be empty. Please try again.")
-                return
-            elif not name_first.isalpha():
-                print("Invalid input, Name cannot contain numbers or special characters. Please try again.")
-                return
-            if not name_first.isalpha():
-                print("Invalid input, Name cannot contain numbers or special characters. Please try again.")
-                return
-            if name_last and not name_last.isalpha():
-                print("Invalid input, Name cannot contain numbers or special characters. Please try again.")
-                return
-            if " " in name_first:
-                print("Invalid input, Name cannot contain spaces. Please try again.")
-                return
-            elif any(char in '!_-@#$%^&*()+=[]{}|;:",.<>?/`~' for char in name_first):
-                print("Invalid input, Name cannot contain special characters. Please try again.")
-                return
-            elif "  " in name_last:
-                print("Invalid input, Name cannot contain spaces. Please try again.")
-                return
-            elif any(char in '!_-@#$%^&*()+=[]{}|;:",.<>?/`~' for char in name_last):
-                print("Invalid input, Name cannot contain special characters. Please try again.")
-                return
-            name=(name_first+" "+name_last).strip()
-            if username not in record_manager.records:
-                record_manager.records[username]={"Name": name, "ID" : generate_id(), "Last saved" :time_save()}
-                save_names(record_manager)
-                print("Username, name and Unique ID added successfully")
-                print(f'Your Unique ID : {record_manager.records[username]["ID"]}')
-            else:
-                print("Data already exists, Please try again")
-                return
-        except Exception as e:
-            print(f"Error: {e}")
+    try:
+        print("The data will be stores locally on ", os.path.abspath(__file__))
+        print("NOTE : Usermane must contain 3 min characters and max 20 characters,only 4 Special Characters are allowed")
+        username=input("Please enter a username :").strip()
+        if not user_valid(record_manager,username):
+            log_info(f"Invalid username attempt: {username}", level="WARNING")
+            return
+        print("NOTE : The name will be used only for the display purpose")
+        name_first=input("Please enter your first name :").strip()
+        name_last=input("Please enter your Last name (optional if exsists):").strip()
+        if username in record_manager.records:
+            print("Username already exists, Please Try Again")
+            return
+        if not name_valid(name_first,name_last):
+            log_info(f"Invalid name entry for: {username}", level="WARNING")
+            return
+        name=(name_first+" "+name_last).strip()
+        record_manager.update_record(username,name,generate_id(),time_save())
+        print("Registration Successful!")
+        log_info(f"Registration successful: {username}", level="INFO")
+        return
+    except Exception as e:
+        print("An Unexpected Error Occured")
+        log_info(f"ERROR : {e}",level="CRITICAL")

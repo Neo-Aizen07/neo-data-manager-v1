@@ -1,168 +1,117 @@
-# Neo Data Manager (v1.4) 🗃️ : Data Persistence & QR Engine 
-Python Version | License: MIT
+# Neo Data Manager v1.5 🗃️
 
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-## 📂 Project Structure
 
-```text
-neo-data-manager/
-├── main.py                # 🟢 Entry Point: Main menu and program loop
-├── RecordManager.py       # 🧠 Core Class: Connects all modules together
-├── operations.py          # ⚙️ Logic: Search and Deletion functions
-├── storage.py             # 💾 Data: Saving and Loading JSON records
-├── user_entry.py          # ⌨️ Input: Registration and Name validation
-├── user_interface.py      # 🎨 UI/UX: ID generation and Timestamps
-├── qr_code.py             # 🏁 QR Engine: QR generation and auto-cleanup
-├── file_data.py           # 🔍 Diagnostic: The "Verify" utility for paths
-├── data.json              # 📂 Database: Local storage for your records
-└── requirements.txt       # 📦 Dependencies: Required Python libraries
-
-## 🚀 What's New in v1.4
-This version is a major logic overhaul focusing on **Data Persistence** and **Search Accuracy**.
-
-### 🛠️ Key Bug Fixes
-* **Persistence Fix:** Resolved the "Data Amnesia" bug where records were being wiped on every restart.
-
-* **Search Logic:** Fixed the "Loop Ghosting" error in `operations.py`. The system no longer prints "Not Found" multiple times for a single search.
-
-* **Freedom of Entry:** Implemented `.lower().strip()` logic. Search is now case-insensitive and ignores accidental spaces.
-
-* **State Management:** Fixed the `storage.py` loading error by correctly updating the `RecordManager` object attributes.
-
-### ✨ New Feature: Advanced File Verification
-
-* **Path Integrity Check:** Added a "Verify" utility that performs a deep scan of the system to locate the `data.json` file.
-
-* **Environment Diagnostics:** The system now prints the Current Working Directory (CWD) and lists all items in the Base Directory to help users debug file permission or pathing issues.
-
-* **Existence Validation:** Real-time feedback on whether the database file exists before attempting read/write operations.
-
-A lightweight CLI-based database management system built for structured data storage, unique ID generation, and QR code output. Designed as a learning project for a first-year undergraduate, this tool demonstrates OOP, JSON handling, and basic data validation.
-
-## 🚀 **Features**
-Persistent Storage: JSON-based storage ensures all records are saved and retrievable.
-
-Unique ID Generation: Each record gets a 10-character hexadecimal ID using uuid.
-
-QR Code Export: Display any user’s record as a QR code with easy deletion after viewing.
-
-## **Data Validation :**
-Usernames cannot start/end with special characters or uppercase letters.
-
-Names cannot have numbers, spaces, or special characters.
-
-Interactive CLI Menu: Add, search, delete, or generate QR codes for users.
-
-Safety Layer for Deletion: Confirms deletion for both individual users and the entire database to prevent mistakes.
-
-## ✨ **Core Functions**
-
-### **name_enter()**
-Add a new user with username, first & last name, and unique ID.
-
-### **search_func()**
-Search users by username, full name, or ID.
-
-### **delete_data()**
-Delete all records with confirmation.
-
-### **delete_person()**
-Delete a single user’s data with confirmation.
-
-### **qr_code()**
-Generate and display a QR code for any user record.
-
-### **file_load()**
-Load existing records from data.json.
-
-### **save_names()**
-Save all records back to data.json.
-
-
-## 🛠️ **Usage**
-Navigate through the menu to add users, search, generate QR codes, or delete data.
-
-The QR code will be automatically deleted after you close it.
-
-Deletion operations always require confirmation to prevent accidental data loss.
-## ⚠️ **Limitations & Known Issues**
-
-### 1. Data Structure Boundaries
-
-* **Duplicate Name Handling:** Currently, if two users have the same name (e.g., two "Manoj" entries), the search will only return the *first* one it finds. 
-
-* **Username Sensitivity:** While Names are "free," Usernames are still strict keys. If you change a username manually in the JSON, the link to the record may break.
-
-### 2. Search Constraints
-
-* **Exact Match Only:** The search requires the full name. Searching for "Man" will not find "Manoj" (Partial matching is planned for v1.5).
-
-* **Search Context:** You must select the specific search mode (ID vs. Name). A "Universal Search" that checks all fields at once is not yet implemented.
-
-### 3. File System & Concurrency
-* **No Multi-User Support:** The program is designed for a single user. If two instances of the program try to save to `data.json` at the same exact time, data corruption could occur.
-
-* **JSON Dependency:** If the `data.json` file is manually edited and a comma is missed, the program will fail to boot until the JSON syntax is fixed.
-
-* **Manual JSON Editing:** The program relies on strict JSON formatting. If a user manually edits `data.json` and breaks the syntax (e.g., a missing comma), the program will crash on boot.
-
-### **QR Code Display**: 
-**Works on most systems but may fail on some non-GUI environments.**
-
-### **Error Handling**: 
-**Minor exceptions are caught; however, incorrect manual file edits in lost.json may break loading.**
-
-### **Readme Generated by AI**:
-**Descriptions and technical highlights are AI-assisted; code is original.**
-
-## 💡 **Notes**
-This project is a learning experiment, not for production use.
-
-Contributions and feedback are welcome!
-## 📸 Gallery
-<details>
-  <summary>Click to see the Manager in action!</summary>
-  
-  ### Main Menu
-  ![Menu](screenshots/menu.png)
-  
-  ### Adding Records (UUID Generation)
-  ![Add](screenshots/add_record.png)
-  
-  ### Searching & QR Export
-  ![QR](screenshots/qr_export.png)
-</details>
+A privacy-first, offline CLI database management system built in Python. No cloud. No internet required. Your data stays on your machine.
 
 ---
 
-## 🛠️ Installation & Setup
+## 📂 Project Structure
 
-1. **Clone the Repo**
-
-```bash
-   git clone [https://github.com/Neo-Aizen07/neo-data-manager.git](https://github.com/Neo-Aizen07/neo-data-manager.git)
-   cd neo-data-manager
-   ```
-2. **Install Dependencies**
-
- ```bash
- pip install -r requirements.txt
- ```
-
-3. **Run the engine**
-```bash
-python main.py
-📈 Version History
-v1.0: Initial release with basic CRUD operations.
-```bash
-v1.1 : Fixed logic errors, improved JSON serialization, and optimized UUID generation.
-
-v1.2 : Fixed logic errors, introduced username indexing, and added UI processing effects.
-
-v1.3 Fixed username/first & last name validation errors.
-Added keyboard input to close QR code instead of fixed sleep.
-Enhanced menu for separate delete operations (entire data vs single user).
-
-v1.4 (current) : Fixed data persistence, optimized search loops,file verification layers and added case-insensitive matching.
 ```
+neo-data-manager/
+├── main.py            # 🟢 Entry point, menu loop
+├── RecordManager.py   # 🧠 Core brain, single source of truth for all state
+├── storage.py         # 💾 Atomic save and load — self-healing JSON
+├── operations.py      # ⚙️  Deletion logic
+├── search.py          # 🔍 Search by ID or partial username
+├── user_entry.py      # ⌨️  Registration and input handling
+├── user_interface.py  # 🎨 ID generation, timestamps
+├── Validation.py      # ✅ Username and name validation rules
+├── logger.py          # 📋 Logging system with ISO timestamps
+├── file_data.py       # 🛠️  File path diagnostics
+└── data.json          # 📦 Local database (auto-created if missing)
+```
+
+---
+
+## 🚀 What's New in v1.5
+
+### Bug Fixes
+- **Duplicate Username Fix:** Records were being silently overwritten due to a state management bug in `RecordManager.__init__`. Fixed by correcting how `file_load` assigns to `self.records`.
+- **Mutable State Overhaul:** Removed scattered state across modules. `RecordManager` is now the single brain — all reads and writes go through it.
+- **Atomic Save Stability:** Improved the temp file → `os.replace` pipeline to prevent corruption on interrupted writes.
+
+### New Features
+- **Partial Username Search:** Search by typing any part of a username. Returns all matches and lets you pick.
+- **Standard Logging System:** Replaced custom logger with Python's `logging` library. ISO timestamp format. Logs saved to `error.log`.
+- **Log Viewer Menu:** View today's logs or errors only directly from the CLI — no need to open the file manually.
+- **Self-Healing Database:** If `data.json` is missing, it is automatically recreated on next save. Zero manual intervention needed.
+
+### Removed
+- QR code generation (removed for stability and scope focus)
+- Search by full name (replaced with partial username search)
+
+---
+
+## ✨ Features
+
+- **Fully Offline** — zero internet dependency, zero cloud
+- **Persistent Storage** — JSON-based, survives restarts
+- **Atomic Writes** — data written to temp file first, then replaced. Corruption resistant.
+- **Self-Healing** — missing database file is recreated automatically
+- **Unique ID Generation** — 10-character hex ID per record via `uuid`
+- **Partial Search** — find users by partial username match
+- **Validation** — strict username and name rules enforced before any record is created
+- **Logging** — every action logged with ISO timestamp, level, and message
+
+---
+
+## 🛠️ Core Functions
+
+| Function | File | Description |
+|---|---|---|
+| `name_enter()` | user_entry.py | Register new user with validation |
+| `search_func()` | search.py | Search by ID or partial username |
+| `delete_data()` | operations.py | Delete all records with confirmation |
+| `delete_person()` | operations.py | Delete single user with confirmation |
+| `file_load()` | storage.py | Load records from data.json |
+| `save_names()` | storage.py | Atomic save to data.json |
+| `log_menu()` | logger.py | View logs from CLI |
+| `verify()` | file_data.py | Diagnose file paths and existence |
+
+---
+
+## ⚠️ Known Limitations
+
+- **Single user only** — no concurrent access support
+- **Manual JSON edits** — breaking the JSON syntax will cause load failure
+- **No universal search** — must choose ID or username mode explicitly
+- **No multi-field search** — cannot search by name, only username or ID
+
+---
+
+## 🛠️ Installation
+
+```bash
+git clone https://github.com/Neo-Aizen07/neo-data-manager.git
+cd neo-data-manager
+pip install -r requirements.txt
+python main.py
+```
+
+---
+
+## 📈 Version History
+
+| Version | Highlights |
+|---|---|
+| v1.0 | Initial release, basic CRUD |
+| v1.1 | Fixed logic errors, improved JSON serialization, UUID generation |
+| v1.2 | Username indexing, UI processing effects |
+| v1.3 | Validation fixes, keyboard QR close, separate delete operations |
+| v1.4 | Data persistence fix, atomic saves, file verification, case-insensitive search |
+| v1.5 | Duplicate username fix, partial search, standard logging, self-healing JSON, mutable state overhaul |
+
+---
+
+## 💡 Notes
+
+- Code is written and debugged manually — AI used only for code review and README writing
+- Contributions and feedback welcome
+- Planned for v1.6: SQL migration via SQLite
+
+---
+
+
