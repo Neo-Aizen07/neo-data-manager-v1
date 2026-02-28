@@ -1,6 +1,4 @@
 from storage import file_load
-import uuid
-import time
 from logger import log_info
 def search_func(record_manager):
     input_1=input("Do you want to search using ID or Username:").lower()

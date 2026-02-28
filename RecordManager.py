@@ -57,7 +57,7 @@ class RecordManager():
     def display_user(self,username):
             data=self.records[username]
             if username in self.records:
-                print(f"Username : {username}\n Name : {data.get("Name")}\n ID : {data.get("ID")}\n Last Saved : {data.get("Last Saved")}")
+                print(f"Username : {username}\n Name : {data.get('Name')}\n ID : {data.get('ID')}\n Last Saved : {data.get('Last Saved')}")
                 log_info(f"Record displayed: {username}", level="WARNING")
     def delete_person(self):
         from operations import delete_person
