@@ -53,6 +53,26 @@ neo-data-manager/
 - Minimum username length increased from 3 to 5 characters
 - All error and success messages consistently styled across the codebase
 
+## 📸 Gallery
+
+### Demo
+![Neo Demo](demo.gif/neo_data_manager_work.gif)
+
+### System Status
+![Neo Demo](demo.gif/neo_system_status.gif)
+
+### Menu
+![Menu](screenshots/menu.png)
+
+### Search
+![Search](screenshots/search.png)
+
+### System Status
+![Status](screenshots/system_status.png)
+
+### Registration
+![Registration](screenshots/registration.png)
+
 ---
 
 ## ✨ Features
